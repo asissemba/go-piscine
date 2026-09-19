@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Artist.Name}}</title>
+
+    <style>
+        body{
+            margin:0;
+            padding:30px;
+            font-family:Arial, Helvetica, sans-serif;
+            background:#f5f5f5;
+        }
+
+        .card{
+            max-width:700px;
+            margin:auto;
+            background:white;
+            border-radius:12px;
+            box-shadow:0 2px 10px rgba(0,0,0,.15);
+            overflow:hidden;
+        }
+
+        img{
+            width:100%;
+        }
+
+        .content{
+            padding:20px;
+        }
+
+        ul{
+            padding-left:20px;
+        }
+
+        a{
+            text-decoration:none;
+        }
+
+        .back{
+            display:inline-block;
+            margin-bottom:20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<a class="back" href="/">← Back to artists</a>
+
+<div class="card">
+
+    <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}">
+
+    <div class="content">
+
+        <h1>{{.Artist.Name}}</h1>
+
+        <p><strong>Creation year:</strong> {{.Artist.CreationDate}}</p>
+
+        <p><strong>First album:</strong> {{.Artist.FirstAlbum}}</p>
+
+        <h2>Members</h2>
+
+        <ul>
+            {{range .Artist.Members}}
+            <li>{{.}}</li>
+            {{end}}
+        </ul>
+
+        <h2>Concert locations</h2>
+
+        <ul>
+            {{range $location, $dates := .Relation.DatesLocations}}
+            <li>
+                <strong>{{$location}}</strong>
+
+                <ul>
+                    {{range $dates}}
+                    <li>{{.}}</li>
+                    {{end}}
+                </ul>
+
+            </li>
+            {{end}}
+        </ul>
+
+    </div>
+
+</div>
+
+</body>
+</html>

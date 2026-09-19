@@ -1,0 +1,24 @@
+{{range .}}
+<div class="card">
+    <a href="/artist?id={{.ID}}">
+        <img src="{{.Image}}">
+        <h3>{{.Name}}</h3>
+        <p>{{.CreationDate}}</p>
+    </a>
+</div>
+{{end}}
+
+{{if not .}}
+<p style="color:white; text-align:center; width:100%;">
+    No results found
+</p>
+{{end}}
+
+{{if not .}}
+
+<div class="empty-state">
+    <h2>No artists found 🎵</h2>
+    <p>Try another search</p>
+</div>
+
+{{end}}

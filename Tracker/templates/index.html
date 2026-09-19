@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head> <link rel="stylesheet" href="/static/css/style.css">
+    <title>Groupie Tracker</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f5f5;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        <form method="GET" action="/" style="margin-bottom:20px;">
+        
+        <input type="text" id="searchInput" placeholder="Search artist...">
+
+        <input type="text" name="search" placeholder="Search name">
+
+        <input type="number" name="year" placeholder="Year">
+
+        <input type="number" name="members" placeholder="Members count">
+
+        <button type="submit">Filter</button>
+
+        </form>
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            width: 200px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        img {
+            width: 100%;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Artists 🎵</h1>
+<form action="/search" method="GET" style="margin-bottom:20px;">
+    <input
+        type="text"
+        name="q"
+        placeholder="Search artist..."
+        style="padding:10px; width:250px;"
+    >
+
+    <button type="submit" style="padding:10px;">
+        Search
+    </button>
+</form>
+
+<div class="container">
+
+    {{range .}}
+    <a href="/artist?id={{.ID}}" style="text-decoration:none; color:inherit;">
+    <div class="card"></a>
+        <img src="{{.Image}}" />
+        <h3>{{.Name}}</h3>
+        <p><b>Year:</b> {{.CreationDate}}</p>
+        <p><b>First album:</b> {{.FirstAlbum}}</p>
+        <p><b>Members:</b></p>
+        <ul>
+            {{range .Members}}
+                <li>{{.}}</li>
+            {{end}}
+        </ul>
+    </div>
+    {{end}}
+
+</div>
+
+<script>
+const input = document.getElementById("searchInput");
+const cards = document.getElementById("cards");
+
+let timeout = null;
+
+input.addEventListener("input", function () {
+
+    clearTimeout(timeout);
+
+    timeout = setTimeout(async () => {
+
+        cards.innerHTML = "<div class='spinner'></div>";
+
+        const query = input.value;
+
+        const res = await fetch("/search?q=" + query);
+        const html = await res.text();
+
+        cards.innerHTML = html;
+
+    }, 300);
+
+});
+</script>
+
+</body>
+</html>
+<div id="cards">
+
+    {{range .}}
+    <div class="card">
+        <a href="/artist?id={{.ID}}">
+            <img src="{{.Image}}">
+            <h3>{{.Name}}</h3>
+        </a>
+    </div>
+    {{end}}
+</div>
+
+cards.innerHTML = `
+<div class="container">
+    <div class="skeleton">
+        <div class="skeleton-image"></div>
+        <div class="skeleton-text"></div>
+    </div>
+
+    <div class="skeleton">
+        <div class="skeleton-image"></div>
+        <div class="skeleton-text"></div>
+    </div>
+
+    <div class="skeleton">
+        <div class="skeleton-image"></div>
+        <div class="skeleton-text"></div>
+    </div>
+</div>
+`;

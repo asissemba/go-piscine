@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groupie Tracker Filters</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+
+</head>
+
+<script>
+function hasMember(filters, value) {
+    if (!filters) return false;
+    if (!filters.Members) return false;
+    return filters.Members.includes(value);
+}
+</script>
+
+<body>
+
+<h1 style="color:red;">ЭТО HOME.HTML</h1>
+
+<form class="filters" method="GET">
+
+    <div class="filter-group">
+        <label>Search</label>
+        <input
+    type="text"
+    name="q"
+    value="{{.Filters.Search}}"
+    placeholder="Artist name">
+    </div>
+
+    <div class="filter-group">
+    <label>Creation Date</label>
+
+    <input
+    type="number"
+    name="from"
+    placeholder="From"
+    value="{{.Filters.CreationFrom}}">
+
+   <input
+    type="number"
+    name="to"
+    placeholder="To"
+    value="{{.Filters.CreationTo}}">
+</div>
+
+<!-- ВСТАВИТЬ СЮДА -->
+
+<div class="filter-group">
+    <label>First Album Year</label>
+
+   <input
+    type="number"
+    name="album_from"
+    placeholder="From"
+    value="{{.Filters.AlbumFrom}}">
+
+  <input
+    type="number"
+    name="album_to"
+    placeholder="To"
+    value="{{.Filters.AlbumTo}}">
+</div>
+
+<div class="filter-group">
+    <label>Members</label>
+
+    <label>
+    <input
+        type="checkbox"
+        name="members"
+        value="1"
+        {{if containsInt .Filters.Members 1}}checked{{end}}>
+    1
+</label>
+   <label>
+    <input
+        type="checkbox"
+        name="members"
+        value="2"
+        {{if containsInt .Filters.Members 2}}checked{{end}}>
+    2
+</label>
+
+<label>
+    <input
+        type="checkbox"
+        name="members"
+        value="3"
+        {{if containsInt .Filters.Members 3}}checked{{end}}>
+    3
+</label>
+
+<label>
+    <input
+        type="checkbox"
+        name="members"
+        value="4"
+        {{if containsInt .Filters.Members 4}}checked{{end}}>
+    4
+</label>
+
+<label>
+    <input
+        type="checkbox"
+        name="members"
+        value="5"
+        {{if containsInt .Filters.Members 5}}checked{{end}}>
+    5
+</label>
+</div>
+
+<h2 style="color: yellow;">LOCATION TEST</h2>
+
+<div class="filter-group">
+    <label>Location</label>
+
+    <input
+    type="text"
+    name="location"
+    placeholder="London"
+    value="{{.Filters.Location}}">
+</div>
+
+<div class="filter-group">
+    <label>Number of Locations</label>
+
+    <input
+        type="number"
+        name="location_count"
+        min="1"
+        value="{{.Filters.LocationCount}}">
+</div>
+
+<button type="submit">
+    Apply Filters
+</button>
+
+</form>
+
+<div class="grid">
+
+{{if .Artists}}
+
+{{range .Artists}}
+
+    <div class="card">
+
+        <a href="/artist?id={{.ID}}">
+
+            <img src="{{.Image}}" alt="{{.Name}}">
+
+            <div class="name">
+                {{.Name}}
+            </div>
+
+            <div class="year">
+                Created: {{.CreationDate}}
+            </div>
+
+            <div class="members">
+                Members: {{len .Members}}
+            </div>
+
+            <div>
+                First album: {{.FirstAlbum}}
+            </div>
+
+        </a>
+
+    </div>
+
+    {{end}}
+
+{{else}}
+
+<div class="empty-state">
+    <h2>No artists found</h2>
+    <p>Try changing your filters.</p>
+</div>
+
+{{end}}
+
+</div>
+
+</body>
+</html>
